@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -26,8 +27,9 @@ class LoginController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (($user) && (Hash::check($request->password, $user->password))) {
-            $token = $user->createToken('ApiToken')->plainTextToken;
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::user();
+            $token = $user->createToken($user->name)->plainTextToken;
             return response()->json([
                 'success'   => true,
                 'user'      => $user,
@@ -45,9 +47,10 @@ class LoginController extends Controller
      * To User Logout
      * @return void
      */
-    public function logout()
+    public function logout(Request $request)
     {
-        auth()->user()->currentAccessToken()->delete();
+        $user = User::where('email', $request->email)->first();
+        $user->tokens()->where('tokenable_id', $user->id)->delete();
         auth()->logout();
         return response()->json([
             'success'   => true,
