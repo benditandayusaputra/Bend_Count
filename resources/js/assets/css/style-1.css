@@ -1,0 +1,45 @@
+.login-box {
+    margin-top: 50px;
+}
+
+.login-box>.card-body>.row>.col-12>h2 {
+    color: #3456FF;
+}
+
+.login-box>.card-body>.row>.col-12>form>div>input {
+    border: none !important;
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.login-box>.card-body>.row>.col-12>form>div>input::-webkit-input-placeholder {
+    color: #3456FF;
+    font-weight: bold;
+    opacity: .6;
+}
+
+.login-box>.card-body>.row>.col-12>form>div>input::-moz-input-placeholder {
+    color: #3456FF;
+    font-weight: bold;
+    opacity: .6;
+}
+
+.login-box>.card-body>.row>.col-12>form>div>input::-o-input-placeholder {
+    color: #3456FF;
+    font-weight: bold;
+    opacity: .6;
+}
+
+.login-box>.card-body>.row>.col-12>form>button {
+    background: linear-gradient(102.65deg, #5690FF 38.63%, #3456FF 67.43%) !important;
+    border-radius: 20px !important;
+    box-shadow: 0px 0px 2px black;
+    font-weight: bolder
+}
+
+@media only screen and (max-width: 600px) {
+    .login-box {
+        margin-top: 0 !important;
+        border: none !important;
+    }
+}

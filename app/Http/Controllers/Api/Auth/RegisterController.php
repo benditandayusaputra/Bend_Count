@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
@@ -42,11 +44,25 @@ class RegisterController extends Controller
             'password.min'          => 'Password Minimal 6 Karakter'
         ]);
 
-        User::create($request->all());
+        $name = time() . $request->photo_name;
+        Storage::disk('public')->put($name, $request->photo_ktp);
+
+        $password = Hash::make($request->password);
+
+        $requestOne = $request->only('tps_id', 'nik', 'name', 'address', 'wa');
+        $requestTwo = array_merge($requestOne, ['photo_ktp' => $name]);
+        $data = array_merge($requestTwo, $request->only('email'));
+
+        if (User::create(array_merge($data, ['password' => $password]))) {
+            return response()->json([
+                'success'   => true,
+                'message'   => 'Registrasi Berhasil Silahkan Tunggu Konfirmasi Dari Admin.'
+            ]);
+        }
 
         return response()->json([
-            'success'   => true,
-            'message'   => 'Registrasi Berhasil, Silahkan Tunggu Konfirmasi Admin'
+            'success'   => false,
+            'message'   => 'Registrasi Gagal Coba Lagi Nanti!'
         ]);
     }
 }

@@ -34,13 +34,13 @@ class LoginController extends Controller
                 'success'   => true,
                 'user'      => $user,
                 'token'     => $token
-            ], 201);
+            ]);
         }
 
         return response()->json([
             'success'   => false,
-            'message'   => 'Username/Password Salah'
-        ], 404);
+            'message'   => 'Username/Password Salah!'
+        ]);
     }
 
     /**
